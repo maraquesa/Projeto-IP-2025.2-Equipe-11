@@ -1,0 +1,24 @@
+import pygame
+from sys import exit
+
+#criar a tela
+tela = pygame.display.set_mode((1500, 750))
+
+
+
+
+#inicio loop
+while True :
+
+
+    #eventos
+    for evento in pygame.event.get() :
+
+        #finalizar progama
+        if evento.type == pygame.QUIT :
+            pygame.quit()
+            exit()
+
+
+
+    pygame.display.update()
