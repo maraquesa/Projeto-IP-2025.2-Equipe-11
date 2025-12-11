@@ -4,7 +4,7 @@ from sys import exit
 #criar a tela
 tela = pygame.display.set_mode((1500, 750))
 
-
+clock = pygame.time.Clock()
 
 
 #inicio loop
@@ -22,3 +22,4 @@ while True :
 
 
     pygame.display.update()
+    clock.tick(60)
