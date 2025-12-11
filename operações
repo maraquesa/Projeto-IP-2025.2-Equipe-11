@@ -2,4 +2,4 @@ import math
 
 #serve para calcular a velocidade quando se move tanto no y quanto no x, por exemplo ao apertar W e D ao mesmo tempo
 def calcular_velocidade_diagonal(velocidade : int) -> float :
-    return round(velocidade * math.sin(45), 4)
+    return round(velocidade * math.sin(math.radians(45)), 4)
