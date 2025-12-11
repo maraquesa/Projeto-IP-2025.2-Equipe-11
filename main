@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+from sprites import *
 
 #criar a tela
 tela = pygame.display.set_mode((1500, 750))
@@ -8,6 +9,8 @@ clock = pygame.time.Clock()
 #tela de fundo
 background = pygame.Surface((1500, 750)) #mudar
 background.fill('Blue')
+perssonagem = Perssonagem(2, (200,200))
+
 
 
 #inicio loop
@@ -26,4 +29,5 @@ while True :
 
     pygame.display.update()
     tela.blit(background,(0,0))
+    perssonagem.atualizar(tela)
     clock.tick(60)
