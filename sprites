@@ -1,12 +1,12 @@
 import pygame
 class Perssonagem(pygame.sprite.Sprite) :
 
-    def __init__(self, velocidade : int) :
+    def __init__(self, velocidade : int, posicao_inicial : tuple[int, int]) :
         super().__init__()
 
         self.imagem = pygame.Surface((20,20))#mudar
         self.imagem.fill('Green')
-        self.retangulo = self.imagem.get_rect(midbottom=(100, 100))
+        self.retangulo = self.imagem.get_rect(midbottom=(posicao_inicial[0], posicao_inicial[1]))
         self.velocidade = velocidade
 
 
