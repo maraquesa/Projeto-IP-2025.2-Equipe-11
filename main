@@ -5,6 +5,9 @@ from sys import exit
 tela = pygame.display.set_mode((1500, 750))
 
 clock = pygame.time.Clock()
+#tela de fundo
+background = pygame.Surface((1500, 750)) #mudar
+background.fill('Blue')
 
 
 #inicio loop
@@ -22,4 +25,5 @@ while True :
 
 
     pygame.display.update()
+    tela.blit(background,(0,0))
     clock.tick(60)
