@@ -1,0 +1,20 @@
+import pygame
+class Perssonagem(pygame.sprite.Sprite) :
+
+    def __init__(self, velocidade : int) :
+        super().__init__()
+
+        self.imagem = pygame.Surface((20,20))#mudar
+        self.imagem.fill('Green')
+        self.retangulo = self.imagem.get_rect(midbottom=(100, 100))
+        self.velocidade = velocidade
+
+
+
+    def atualizar(self,tela) :
+        tela.blit(self.imagem, self.retangulo)
+        tecla = pygame.key.get_pressed()
+        tecla_a = True if tecla[pygame.K_a] else False
+        tecla_d = True if tecla[pygame.K_d] else False
+        tecla_w = True if tecla[pygame.K_w] else False
+        tecla_s = True if tecla[pygame.K_s] else False
