@@ -1,4 +1,6 @@
 import pygame
+from operações import calcular_velocidade_diagonal
+
 class Perssonagem(pygame.sprite.Sprite) :
 
     def __init__(self, velocidade : int, posicao_inicial : tuple[int, int]) :
@@ -18,3 +20,28 @@ class Perssonagem(pygame.sprite.Sprite) :
         tecla_d = True if tecla[pygame.K_d] else False
         tecla_w = True if tecla[pygame.K_w] else False
         tecla_s = True if tecla[pygame.K_s] else False
+
+        #movimento
+        if tecla_a :
+            if tecla_s or tecla_w : self.alterar_x(calcular_velocidade_diagonal(-self.velocidade))
+            else : self.alterar_x(-self.velocidade)
+
+        if tecla_d :
+            if tecla_s or tecla_w : self.alterar_x(calcular_velocidade_diagonal(self.velocidade))
+            else : self.alterar_x(self.velocidade)
+
+        if tecla_s :
+            if tecla_a or tecla_d : self.alterar_y(calcular_velocidade_diagonal(self.velocidade))
+            else : self.alterar_y(self.velocidade)
+
+        if tecla_w :
+            if tecla_a or tecla_d : self.alterar_y(calcular_velocidade_diagonal(-self.velocidade))
+            else : self.alterar_y(-self.velocidade)
+
+
+
+    def alterar_x(self, valor : float) :
+        self.retangulo.x += valor
+
+    def alterar_y(self, valor : float) :
+        self.retangulo.y += valor
