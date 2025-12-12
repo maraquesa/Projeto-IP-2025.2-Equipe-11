@@ -9,7 +9,10 @@ clock = pygame.time.Clock()
 #tela de fundo
 background = pygame.Surface((1500, 750)) #mudar
 background.fill('Blue')
+
+
 perssonagem = Perssonagem(2, (200,200))
+perssonagem_2 = Perssonagem_2(2, (400,400))
 
 
 
@@ -26,8 +29,8 @@ while True :
             exit()
 
 
-
     pygame.display.update()
     tela.blit(background,(0,0))
     perssonagem.atualizar(tela)
+    perssonagem_2.atualizar(tela)
     clock.tick(60)
