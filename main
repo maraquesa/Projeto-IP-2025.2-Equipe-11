@@ -11,8 +11,8 @@ background = pygame.Surface((1500, 750)) #mudar
 background.fill('Blue')
 
 
-perssonagem = Perssonagem(2, (200,200))
-perssonagem_2 = Perssonagem_2(2, (400,400))
+perssonagem = Perssonagem(2, (200,200), True, 'Green')
+perssonagem_2 = Perssonagem(2,(400,400), False, 'Yellow')
 
 
 
