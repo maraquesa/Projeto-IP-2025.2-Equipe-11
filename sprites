@@ -1,6 +1,6 @@
 import math
 import pygame
-from operações import calcular_velocidade_diagonal
+from operações import *
 
 
 class Perssonagem(pygame.sprite.Sprite) :
@@ -17,7 +17,7 @@ class Perssonagem(pygame.sprite.Sprite) :
 
 
 
-    def atualizar(self,tela) :
+    def update(self,tela) :
         tela.blit(self.imagem, self.retangulo)
         tecla = pygame.key.get_pressed()
         if self.modo_movimento :
@@ -61,10 +61,35 @@ class Perssonagem(pygame.sprite.Sprite) :
             self.delay_x += abs(valor) - int(abs(valor))
         else :
             self.delay_x -= abs(valor)
-        print(self.delay_x)
+
     def alterar_y(self, valor : float) :
         if self.delay_y <= 0 :
             self.retangulo.y += math.ceil(valor) if valor >= 0 else math.floor(valor)
             self.delay_y += abs(valor) - int(abs(valor))
         else :
             self.delay_y -= abs(valor)
+
+
+
+
+class Coletavel_principal(pygame.sprite.Sprite) :
+
+    def __init__(self):
+        super().__init__()
+
+        global pontuacao_1, pontuacao_2
+        self.imagem = pygame.Surface((10,10))
+        self.imagem.fill('Gold')
+        self.retangulo = self.imagem.get_rect(midbottom = achar_numero_tela())
+
+
+
+    def update(self, tela) :
+        tela.blit(self.imagem, self.retangulo)
+        if colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 1 :
+            pontuacao_1 += 1
+            self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
+
+        elif colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 2 :
+            pontuacao_2 += 1
+            self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
