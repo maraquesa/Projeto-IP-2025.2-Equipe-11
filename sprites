@@ -4,7 +4,7 @@ from operações import calcular_velocidade_diagonal
 
 class Perssonagem(pygame.sprite.Sprite) :
 
-    def __init__(self, velocidade : int, posicao_inicial : tuple[int, int]) :
+    def __init__(self, velocidade : float, posicao_inicial : tuple[int, int]) :
         super().__init__()
 
         self.imagem = pygame.Surface((20,20))#mudar
