@@ -19,7 +19,7 @@ perssonagem_2 = pygame.sprite.GroupSingle()
 perssonagem_2.add(Perssonagem(2,(400,400), False, 'Yellow'))
 
 coletaveis_principais = pygame.sprite.Group()
-for i in range(n_colecionaveis_principais) : coletaveis_principais.add(Coletavel_principal())
+for i in range(n_colecionaveis_principais) : coletaveis_principais.add(Coletavel_generico('principal'))
 
 
 #inicio loop
