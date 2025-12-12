@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 from sprites import *
 
+pygame.init()
 #criar a tela
 tela = pygame.display.set_mode((1500, 750))
 
@@ -11,9 +12,10 @@ background = pygame.Surface((1500, 750)) #mudar
 background.fill('Blue')
 
 
-perssonagem = Perssonagem(2, (200,200), True, 'Green')
-perssonagem_2 = Perssonagem(2,(400,400), False, 'Yellow')
-
+perssonagem = pygame.sprite.GroupSingle()
+perssonagem.add(Perssonagem(2, (200,200), True, 'Green'))
+perssonagem_2 = pygame.sprite.GroupSingle()
+perssonagem_2.add(Perssonagem(2,(400,400), False, 'Yellow'))
 
 
 #inicio loop
@@ -31,6 +33,6 @@ while True :
 
     pygame.display.update()
     tela.blit(background,(0,0))
-    perssonagem.atualizar(tela)
-    perssonagem_2.atualizar(tela)
+    perssonagem.update(tela)
+    perssonagem_2.update(tela)
     clock.tick(60)
