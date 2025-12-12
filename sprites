@@ -74,14 +74,15 @@ class Perssonagem(pygame.sprite.Sprite) :
 
 class Coletavel_generico(pygame.sprite.Sprite) :
 
-    def __init__(self, acao_na_coleta : str):
+    def __init__(self, acao_na_coleta : str, aparencia : str, tempo_vida : int = None):
         super().__init__()
 
         global pontuacao_1, pontuacao_2
         self.imagem = pygame.Surface((10,10))
-        self.imagem.fill('Gold')
+        self.imagem.fill(aparencia)
         self.retangulo = self.imagem.get_rect(midbottom = achar_numero_tela())
         self.metodo = acao_na_coleta
+        if self.metodo == 'secundario' : self.tempo_vida = tempo_vida
 
 
 
@@ -96,3 +97,9 @@ class Coletavel_generico(pygame.sprite.Sprite) :
             if self.metodo == 'principal':
                 pontuacao_2 += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
+
+        if self.metodo == 'secundario' :
+            if self.tempo_vida <= 0 :
+                self.kill()
+            else :
+                self.tempo_vida -= 1
