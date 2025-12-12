@@ -1,3 +1,4 @@
+import math
 import pygame
 from operações import calcular_velocidade_diagonal
 
@@ -10,6 +11,8 @@ class Perssonagem(pygame.sprite.Sprite) :
         self.imagem.fill('Green')
         self.retangulo = self.imagem.get_rect(midbottom=(posicao_inicial[0], posicao_inicial[1]))
         self.velocidade = velocidade
+        self.delay_x = 0
+        self.delay_y = 0
 
 
 
@@ -39,9 +42,22 @@ class Perssonagem(pygame.sprite.Sprite) :
             else : self.alterar_y(-self.velocidade)
 
 
-
+    
+    '''funções que execultam o movimento, a maior parte é para resolver o proplema do objeto se mover mais rapido ou lento na diagonal,
+        como o pygame não conssegue mover um objeto em numero decimais, o progama ele sempre arredondara o movimento para cima, toda vez que 
+        o progama execultar um movimento que foi maior que o recebido, ele coloca uma "divida" no progama, e o perssonagem não conssiguira se 
+        ate a divida ser paga, se o perssonagem tiver uma divida de movimento, ao invez do movimento ser usado para mover o perssonagem,
+        o movimento sera utilizado para pagar a divida.'''
     def alterar_x(self, valor : float) :
-        self.retangulo.x += valor
-
+        if self.delay_x <= 0 :
+            self.retangulo.x += math.ceil(valor) if valor >= 0 else math.floor(valor)
+            self.delay_x += abs(valor) - int(abs(valor))
+        else :
+            self.delay_x -= abs(valor)
+        print(self.delay_x)
     def alterar_y(self, valor : float) :
-        self.retangulo.y += valor
+        if self.delay_y <= 0 :
+            self.retangulo.y += math.ceil(valor) if valor >= 0 else math.floor(valor)
+            self.delay_y += abs(valor) - int(abs(valor))
+        else :
+            self.delay_y -= abs(valor)
