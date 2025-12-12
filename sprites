@@ -72,24 +72,27 @@ class Perssonagem(pygame.sprite.Sprite) :
 
 
 
-class Coletavel_principal(pygame.sprite.Sprite) :
+class Coletavel_generico(pygame.sprite.Sprite) :
 
-    def __init__(self):
+    def __init__(self, acao_na_coleta : str):
         super().__init__()
 
         global pontuacao_1, pontuacao_2
         self.imagem = pygame.Surface((10,10))
         self.imagem.fill('Gold')
         self.retangulo = self.imagem.get_rect(midbottom = achar_numero_tela())
+        self.metodo = acao_na_coleta
 
 
 
-    def update(self, tela) :
+    def update(self, tela) : #açao na coleta é do tipo função
         tela.blit(self.imagem, self.retangulo)
         if colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 1 :
-            pontuacao_1 += 1
-            self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
+            if self.metodo == 'principal' :
+                pontuacao_1 += 1
+                self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
 
         elif colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 2 :
-            pontuacao_2 += 1
-            self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
+            if self.metodo == 'principal':
+                pontuacao_2 += 1
+                self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
