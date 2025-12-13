@@ -1,7 +1,7 @@
 import pygame
 from sys import exit
 from sprites import *
-from operações import *
+from operacoes import *
 
 pygame.init()
 #criar a tela
@@ -13,10 +13,10 @@ background = pygame.Surface((x, y)) #mudar
 background.fill('Blue')
 
 
-perssonagem = pygame.sprite.GroupSingle()
-perssonagem.add(Perssonagem(2, (200,200), True, 'Green'))
-perssonagem_2 = pygame.sprite.GroupSingle()
-perssonagem_2.add(Perssonagem(2,(400,400), False, 'Yellow'))
+jogador_1 = pygame.sprite.GroupSingle()
+jogador_1.add(Jogador(2, (200,200), True, 'Green'))
+jogador_2 = pygame.sprite.GroupSingle()
+jogador_2.add(Jogador(2,(400,400), False, 'Yellow'))
 
 coletaveis_principais = pygame.sprite.Group()
 for i in range(n_colecionaveis_principais) : coletaveis_principais.add(Coletavel_generico('principal', 'Gold'))
@@ -40,8 +40,8 @@ while True :
 
     pygame.display.update()
     tela.blit(background,(0,0))
-    perssonagem.update(tela)
-    perssonagem_2.update(tela)
+    jogador_1.update(tela)
+    jogador_2.update(tela)
     coletaveis_principais.update(tela)
     coletaveis_secundarios.update(tela)
     clock.tick(60)

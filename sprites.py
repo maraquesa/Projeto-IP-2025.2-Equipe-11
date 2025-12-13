@@ -1,9 +1,9 @@
 import math
 import pygame
-from operações import *
+from operacoes import *
 
 
-class Perssonagem(pygame.sprite.Sprite) :
+class Jogador(pygame.sprite.Sprite) :
 
     def __init__(self, velocidade : int, posicao_inicial : tuple[int, int], wasd : bool, skin : str) :
         super().__init__()
@@ -25,11 +25,17 @@ class Perssonagem(pygame.sprite.Sprite) :
             tecla_d = True if tecla[pygame.K_d] else False
             tecla_w = True if tecla[pygame.K_w] else False
             tecla_s = True if tecla[pygame.K_s] else False
+
+            # ATUALIZA A POSIÇÃO GLOBAL DO JOGADOR 1 NAS OPERAÇÕES
+            posicao_jogadores[1] = self.retangulo
+
         else :
             tecla_a = True if tecla[pygame.K_LEFT] else False
             tecla_d = True if tecla[pygame.K_RIGHT] else False
             tecla_w = True if tecla[pygame.K_UP] else False
             tecla_s = True if tecla[pygame.K_DOWN] else False
+
+            posicao_jogadores[2] = self.retangulo
 
         #movimento
         if tecla_a :
@@ -88,13 +94,15 @@ class Coletavel_generico(pygame.sprite.Sprite) :
 
     def update(self, tela) : #açao na coleta é do tipo função
         tela.blit(self.imagem, self.retangulo)
-        if colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 1 :
+        if colisao_jogador((self.retangulo.x, self.retangulo.y)) == 1 :
             if self.metodo == 'principal' :
+                global pontuacao_1
                 pontuacao_1 += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
 
-        elif colisao_perssonagem((self.retangulo.x, self.retangulo.y)) == 2 :
+        elif colisao_jogador((self.retangulo.x, self.retangulo.y)) == 2 :
             if self.metodo == 'principal':
+                global pontuacao_2
                 pontuacao_2 += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
 
