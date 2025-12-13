@@ -25,13 +25,13 @@ def achar_numero_tela() -> tuple[int,int] : #gera um numero dentro da tela
 
     return (random.randint(50, x - 50), random.randint(50, y - 50))
 
-def colisao_jogador(localizacao_chek : tuple[int,int]) -> int : #1 se colidir com jogador 1 e 2 se coledir com jogador 2, 0 caso com ninguem
-    # Verifica colisão usando o método collidepoint do Pygame
-    if posicao_jogadores[1].collidepoint(localizacao_chek):
+def colisao_personagem(area_de_colisao: pygame.Rect) -> int : # recebe o objeto deimitado por um retangulo (correspondente a sua area de ocupacao)
+    # verifica a colisão usando o método colliderect (colisao entre retangulos)
+    if posicao_jogadores[1].colliderect(area_de_colisao): # 1 se colidir com personagem 1
         return 1
-    elif posicao_jogadores[2].collidepoint(localizacao_chek):
+    elif posicao_jogadores[2].colliderect(area_de_colisao): # 2 se colidir com personagem 2
         return 2
-    return 0
+    return 0 # 0 caso colida com ninguem
 
 def gerar_novo_coletavel() -> bool :
     global tempo_para_prox

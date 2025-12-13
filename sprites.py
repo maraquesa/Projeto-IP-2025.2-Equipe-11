@@ -53,6 +53,8 @@ class Jogador(pygame.sprite.Sprite) :
         if tecla_w :
             if tecla_a or tecla_d : self.alterar_y(calcular_velocidade_diagonal(-self.velocidade))
             else : self.alterar_y(-self.velocidade)
+        
+        self.retangulo.clamp_ip(tela.get_rect()) # impede o jogador de sair da tela
 
 
 
@@ -92,16 +94,17 @@ class Coletavel_generico(pygame.sprite.Sprite) :
 
 
 
-    def update(self, tela) : #açao na coleta é do tipo função
+    def update(self, tela): #açao na coleta é do tipo função
         tela.blit(self.imagem, self.retangulo)
-        if colisao_jogador((self.retangulo.x, self.retangulo.y)) == 1 :
-            if self.metodo == 'principal' :
+        
+        if (colisao_personagem(self.retangulo) == 1): # passa a area inteira do retangulo, nao apenas um ponto
+            if (self.metodo == 'principal'):
                 global pontuacao_1
                 pontuacao_1 += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
 
-        elif colisao_jogador((self.retangulo.x, self.retangulo.y)) == 2 :
-            if self.metodo == 'principal':
+        elif (colisao_personagem(self.retangulo) == 2): 
+            if (self.metodo == 'principal'):
                 global pontuacao_2
                 pontuacao_2 += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
