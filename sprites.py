@@ -24,6 +24,8 @@ class Jogador(pygame.sprite.Sprite):
         tela.blit(self.imagem, self.retangulo)
         tecla = pygame.key.get_pressed()
 
+        largura_tela = tela.get_width()
+        altura_tela = tela.get_height()
 
         if self.modo_movimento:
             tecla_a = True if tecla[pygame.K_a] else False
@@ -83,8 +85,17 @@ class Jogador(pygame.sprite.Sprite):
                 self.alterar_y(calcular_velocidade_diagonal(-self.velocidade))
             else:
                 self.alterar_y(-self.velocidade)
-
-        self.retangulo.clamp_ip(tela.get_rect())  # impede o jogador de sair da tela
+        
+        # teletransporte quando sai da tela (wrap-around)
+        if (self.retangulo.right < 0): # se sumir pela esquerda (canto direito desapareceu)
+            self.retangulo.left = largura_tela # reaparece na direita (primeiro o canto esquerdo)
+        elif (self.retangulo.left > largura_tela): # se sumir pela direita (canto esquerdo desapareceu)
+            self.retangulo.right = 0 # reaparece na esquerda (primeiro o canto direito)
+            
+        if (self.retangulo.bottom < 0): # se sumir por cima (canto inferior desapareceu)
+            self.retangulo.top = altura_tela # reaparece embaixo (primeiro o canto superior)
+        elif (self.retangulo.top > altura_tela): # se sumir por baixo (canto superior desapareceu)
+            self.retangulo.bottom = 0 # reaparece em cima (primeiro o canto inferior)
 
 
 
