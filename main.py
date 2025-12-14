@@ -13,10 +13,6 @@ background = pygame.Surface((x, y)) #mudar
 background.fill('Blue')
 
 
-jogador_1 = pygame.sprite.GroupSingle()
-jogador_1.add(Jogador(2, (200,200), True, 'Green'))
-jogador_2 = pygame.sprite.GroupSingle()
-jogador_2.add(Jogador(2,(400,400), False, 'Yellow'))
 
 coletaveis_principais = pygame.sprite.Group()
 for i in range(n_colecionaveis_principais) : coletaveis_principais.add(Coletavel_generico('principal', 'Gold'))
@@ -36,7 +32,7 @@ while True :
             exit()
 
     if gerar_novo_coletavel() :
-        coletaveis_secundarios.add(Coletavel_generico('secundario', 'Purple', tempo_despawn_coletavel))
+        coletaveis_secundarios.add(Coletavel_generico('secundario', 'Purple', tempo_despawn_coletavel, escolher_bonus()))
 
     pygame.display.update()
     tela.blit(background,(0,0))
