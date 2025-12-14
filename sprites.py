@@ -16,7 +16,9 @@ class Jogador(pygame.sprite.Sprite):
         self.delay_y = 0
         self.modo_movimento = wasd
 
-
+        self.empurrao_vx = 0.0  # velocidade de repulsão no eixo X
+        self.empurrao_vy = 0.0  # velocidade de repulsão no eixo Y
+        self.empurrao_frames = 0 # contagem de frames do empurrão
 
     def update(self, tela):
         tela.blit(self.imagem, self.retangulo)
@@ -43,6 +45,19 @@ class Jogador(pygame.sprite.Sprite):
             posicao_jogadores[2] = self.retangulo
 
             self.atualizar_bonus(2)
+
+        if (self.empurrao_frames > 0):
+            self.alterar_x(self.empurrao_vx) # aplica o empurrão no eixo x
+            self.alterar_y(self.empurrao_vy) # aplica o empurrão no eixo y
+            
+            # diminui a velocidade do empurrão gradualmente para melhor efeito visual
+            self.empurrao_vx *= 0.9  
+            self.empurrao_vy *= 0.9
+            
+            self.empurrao_frames -= 1 # reduz o contador de frames do empurrão
+        else: # empurrao acabou, zera as velocidades
+            self.empurrao_vx = 0.0
+            self.empurrao_vy = 0.0
 
         # movimento
         if tecla_a:
@@ -105,6 +120,54 @@ class Jogador(pygame.sprite.Sprite):
         else :
             self.velocidade = velocidade_padrao_perssonagens
 
+    def colidir_jogadores(self, todos_jogadores):
+        for outro_jogador in todos_jogadores: 
+            if (outro_jogador is not self): # colisao não é consigo mesmo
+                if self.retangulo.colliderect(outro_jogador.retangulo): # caso ocorra colisão entre jogadores
+                    dx = self.retangulo.centerx - outro_jogador.retangulo.centerx # vetor distancia x (diferença dos centros no eixo x)
+                    dy = self.retangulo.centery - outro_jogador.retangulo.centery # vetor distancia y (diferença dos centros no eixo y)
+                    
+                    # distancia minima entre os centros sem se sobrepor(soma da metade da largura/altura)
+                    # empurrao > 0 significa que teve empurrao
+                    empurrao_x = (self.retangulo.width / 2) + (outro_jogador.retangulo.width / 2) - abs(dx) 
+                    empurrao_y = (self.retangulo.height / 2) + (outro_jogador.retangulo.height / 2) - abs(dy)
+                    
+                    fator_empurrao = 3.0 # fator para aumentar a força do empurrao
+                    frames_empurrao = 15 # duração do efeito de empurrão em frames
+                    forca_min_empurrao = 5.0 # força minima do empurrao que seja perceptível visualmente
+
+                    if (empurrao_x < empurrao_y): # mexe no eixo x (menor sobreposição)
+                        # pra prevenir tremido, jogadores sao movidos metade do empurrao para fora da sobreposição
+                        if (dx > 0): # jogador na direita
+                            self.retangulo.x += empurrao_x / 2 #afasta para direita
+                            outro_jogador.retangulo.x -= empurrao_x / 2 #afasta o outro jogador para esquerda
+                        else: # jogador na esquerda
+                            self.retangulo.x -= empurrao_x / 2 #afasta para esquerda
+                            outro_jogador.retangulo.x += empurrao_x / 2 #afasta o outro jogador para direita
+                            
+                        forca_empurrao_x = max(empurrao_x * fator_empurrao, forca_min_empurrao) * (1 if (dx > 0) else -1) # para direita se dx>0, senao esquerda
+                        
+                        self.empurrao_vx = forca_empurrao_x
+                        self.empurrao_frames = frames_empurrao
+            
+                        outro_jogador.empurrao_vx = -forca_empurrao_x # outro jogador é empurrado na direção oposta
+                        outro_jogador.empurrao_frames = frames_empurrao
+                        
+                    else: # mexe no eixo y
+                        if (dy > 0): # jogador emabixo
+                            self.retangulo.y += empurrao_y / 2 #afasta para baixo
+                            outro_jogador.retangulo.y -= empurrao_y / 2 # afasta o outro jogador para cima
+                        else: # jogador em cima
+                            self.retangulo.y -= empurrao_y / 2 # afasta para cima
+                            outro_jogador.retangulo.y += empurrao_y / 2 # afasta o outro jogador para baixo
+
+                        forca_empurrao_y = max(empurrao_y * fator_empurrao, forca_min_empurrao) * (1 if (dy > 0) else -1) # para baixo se dy>0, senao cima
+                        
+                        self.empurrao_vy = forca_empurrao_y
+                        self.empurrao_frames = frames_empurrao
+            
+                        outro_jogador.empurrao_vy = -forca_empurrao_y # outro jogador é empurrado na direção oposta
+                        outro_jogador.empurrao_frames = frames_empurrao
 
 
 
