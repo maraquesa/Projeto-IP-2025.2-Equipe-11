@@ -14,7 +14,8 @@ tempo_spawn_max_coletavel = 100 # maior tempo para spawnar um coletavel secundar
 tempo_despawn_coletavel = 500 # tempo em ticks para deletar um coletavel secundario
 tempo_para_prox = 0 #tempo inicial para proximo spawn de coletavel
 itensidade_bonus_velocidade = 1.5 # a itenssidade do efeito de velocidade, 1 = 100%, 1.5 = 150% etc
-lista_bonus_disponiveis = [('velocidade', 1, 10)] #lista com todos os bonus possiveis e os pesos dele ser escolhido quando um coletavel secundario spawnar, cada elemento é uma tupla do tipo (elemento, peso, duração efeito em segundos)
+lista_bonus_disponiveis = [('velocidade', 3, 10), ('bome', 1, 2)] #lista com todos os bonus possiveis e os pesos dele ser escolhido quando um coletavel secundario spawnar, cada elemento é uma tupla do tipo (elemento, peso, duração efeito em segundos)
+velocidade_bomerangue = 5
 
 posicao_jogadores = {
     1: pygame.Rect(0, 0, 0, 0),

@@ -20,6 +20,10 @@ class Jogador(pygame.sprite.Sprite):
         self.empurrao_vy = 0.0  # velocidade de repulsão no eixo Y
         self.empurrao_frames = 0 # contagem de frames do empurrão
 
+        self.ultimo_y = 0
+        self.ultimo_x = 0
+        self.delay_bomerangue = 0
+
     def update(self, tela):
         tela.blit(self.imagem, self.retangulo)
         tecla = pygame.key.get_pressed()
@@ -61,26 +65,34 @@ class Jogador(pygame.sprite.Sprite):
             self.empurrao_vx = 0.0
             self.empurrao_vy = 0.0
 
+        #resetar os movimentos passados
+        self.ultimo_y = 0
+        self.ultimo_x = 0
+
         # movimento
         if tecla_a:
+            self.ultimo_x = -1
             if tecla_s or tecla_w:
                 self.alterar_x(calcular_velocidade_diagonal(-self.velocidade))
             else:
                 self.alterar_x(-self.velocidade)
 
         if tecla_d:
+            self.ultimo_x = 1
             if tecla_s or tecla_w:
                 self.alterar_x(calcular_velocidade_diagonal(self.velocidade))
             else:
                 self.alterar_x(self.velocidade)
 
         if tecla_s:
+            self.ultimo_y = 1
             if tecla_a or tecla_d:
                 self.alterar_y(calcular_velocidade_diagonal(self.velocidade))
             else:
                 self.alterar_y(self.velocidade)
 
         if tecla_w:
+            self.ultimo_y = -1
             if tecla_a or tecla_d:
                 self.alterar_y(calcular_velocidade_diagonal(-self.velocidade))
             else:
@@ -130,6 +142,20 @@ class Jogador(pygame.sprite.Sprite):
             self.velocidade = velocidade_padrao_perssonagens * itensidade_bonus_velocidade
         else :
             self.velocidade = velocidade_padrao_perssonagens
+
+        #bomerangue
+        tecla_r = True if pygame.key.get_pressed()[pygame.K_r] and jogador == 1 else False
+        tecla_o = True if pygame.key.get_pressed()[pygame.K_o] and jogador == 2 else False
+        if self.delay_bomerangue <= 0 :
+            if i['bome'][j] > 0 and (tecla_r or tecla_o) and (abs(self.ultimo_x) > 0 or abs(self.ultimo_y) > 0) :
+                print(self.ultimo_y)
+                print('ok')
+                bomerangues.add(Bomerangue((self.retangulo.x, self.retangulo.y), self.ultimo_x, self.ultimo_y, jogador))
+                self.delay_bomerangue = 50
+                i['bome'][j] -= 60
+
+        else : self.delay_bomerangue -= 1
+
 
     def colidir_jogadores(self, todos_jogadores):
         for outro_jogador in todos_jogadores: 
@@ -191,6 +217,7 @@ class Coletavel_generico(pygame.sprite.Sprite):
         global pontuacao_1, pontuacao_2
         self.imagem = pygame.Surface((10, 10))
         self.imagem.fill(aparencia)
+        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black')
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         self.metodo = acao_na_coleta
         self.bonus = bonus_tipo
@@ -228,8 +255,42 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
 
     def coleta_secundaria(self, jogador : int):
-        if self.bonus == 'velocidade' : bonus[jogador][self.bonus]['atual'] = bonus[jogador][self.bonus]['max']
+        bonus[jogador][self.bonus]['atual'] = bonus[jogador][self.bonus]['max']
         self.kill()
+
+
+class Bomerangue(pygame.sprite.Sprite) :
+
+    def __init__(self, localizacao : tuple[int,int],x : int,y : int, jogador : int):
+        super().__init__()
+        self.imagem = pygame.Surface((25,25))
+        self.retangulo = self.imagem.get_rect(midbottom = localizacao)
+        self.imagem.fill('Black')
+        self.movimento_x = x
+        self.movimento_y = y
+        self.velocidade = velocidade_bomerangue
+        if abs(self.movimento_x) > 0 and abs(self.movimento_y): self.velocidade = calcular_velocidade_diagonal(velocidade_bomerangue)
+        print('bomerangue criado')
+        self.jogador = jogador
+
+        self.divida_x = 0
+        self.divida_y = 0
+
+    def update(self,tela, *args, **kwargs):
+        tela.blit(self.imagem, self.retangulo)
+        if self.divida_x <= 0 :
+            self.retangulo.x += math.ceil(self.movimento_x * self.velocidade) if self.movimento_x > 0 else math.floor(self.movimento_x * self.velocidade)
+            self.divida_x += -abs(self.velocidade) + abs(math.ceil(self.velocidade))
+        else :
+            self.divida_x -= self.velocidade
+
+        if self.divida_y <= 0 :
+            self.retangulo.y += math.ceil(self.movimento_y * self.velocidade) if self.movimento_y > 0 else math.floor(self.movimento_y * self.velocidade)
+            self.divida_y += -abs(self.velocidade) + abs(math.ceil(self.velocidade))
+        else :
+            self.divida_y -= self.velocidade
+
+
 
 
 
@@ -237,3 +298,4 @@ jogador_1 = pygame.sprite.GroupSingle()
 jogador_1.add(Jogador(velocidade_padrao_perssonagens, (200,200), True, 'Green'))
 jogador_2 = pygame.sprite.GroupSingle()
 jogador_2.add(Jogador(velocidade_padrao_perssonagens,(400,400), False, 'Yellow'))
+bomerangues = pygame.sprite.Group()

@@ -39,6 +39,7 @@ while True :
     tela.blit(background,(0,0))
     jogador_1.update(tela)
     jogador_2.update(tela)
+    bomerangues.update(tela)
 
     #colisao entre jogadores (empurrao)
     jogador_1.sprite.colidir_jogadores(todos_jogadores)
