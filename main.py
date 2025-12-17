@@ -54,4 +54,5 @@ while True :
 
     coletaveis_principais.update(tela)
     coletaveis_secundarios.update(tela)
+    bomerangues.update(tela)
     clock.tick(60)
