@@ -214,7 +214,6 @@ class Coletavel_generico(pygame.sprite.Sprite):
     def __init__(self, acao_na_coleta: str, aparencia: str, tempo_vida: int = None, bonus_tipo : str = None):
         super().__init__()
 
-        global pontuacao_1, pontuacao_2
         self.imagem = pygame.Surface((10, 10))
         self.imagem.fill(aparencia)
         if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black')
@@ -230,8 +229,8 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
         if (colisao_personagem(self.retangulo) == 1):  # passa a area inteira do retangulo, nao apenas um ponto
             if (self.metodo == 'principal'):
-                global pontuacao_1
-                pontuacao_1 += 1
+                pontuacao_lista[1] += 1
+                print(pontuacao_1)
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
 
             else :
@@ -239,8 +238,7 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
         elif (colisao_personagem(self.retangulo) == 2):
             if (self.metodo == 'principal'):
-                global pontuacao_2
-                pontuacao_2 += 1
+                pontuacao_lista[2] += 1
                 self.retangulo.x, self.retangulo.y = achar_numero_tela()[0], achar_numero_tela()[1]
             else :
                 self.coleta_secundaria(2)

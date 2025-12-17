@@ -56,3 +56,4 @@ while True :
     coletaveis_secundarios.update(tela)
     bomerangues.update(tela)
     clock.tick(60)
+    print(pontuacao_lista[1])
