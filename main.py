@@ -2,12 +2,21 @@ import pygame
 from sys import exit
 from sprites import *
 from operacoes import *
+from menu import tela_inicial
+
 
 pygame.init()
 #criar a tela
 tela = pygame.display.set_mode((x, y))
 
 clock = pygame.time.Clock()
+
+# chama o menu
+escolha = tela_inicial()
+if escolha != "start":
+    pygame.quit()
+    exit()
+
 #tela de fundo
 background = pygame.Surface((x, y)) #mudar
 background.fill('Blue')
