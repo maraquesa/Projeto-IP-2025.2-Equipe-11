@@ -273,6 +273,7 @@ class Bomerangue(pygame.sprite.Sprite) :
 
         self.divida_x = 0
         self.divida_y = 0
+        self.tempo_de_vida = 0
 
     def update(self,tela, *args, **kwargs):
         tela.blit(self.imagem, self.retangulo)
@@ -287,6 +288,19 @@ class Bomerangue(pygame.sprite.Sprite) :
             self.divida_y += -abs(self.velocidade) + abs(math.ceil(self.velocidade))
         else :
             self.divida_y -= self.velocidade
+
+
+        if colisao_personagem(self.retangulo) == 1 and self.jogador == 2 :
+            pontuacao_lista[1] -= 1
+            self.kill()
+
+        if colisao_personagem(self.retangulo) == 2 and self.jogador == 1 :
+            pontuacao_lista[2] -= 1
+            self.kill()
+
+
+        if self.tempo_de_vida >= 200 : self.kill()
+        else : self.tempo_de_vida += 1
 
 
 
