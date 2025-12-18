@@ -224,7 +224,7 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
         self.imagem = pygame.Surface((10, 10))
         self.imagem.fill(aparencia)
-        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if acao_na_coleta == 'bome' else self.imagem.fill('Red')
+        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if bonus_tipo == 'bome' else self.imagem.fill('Red')
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         self.metodo = acao_na_coleta
         self.bonus = bonus_tipo
