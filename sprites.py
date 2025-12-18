@@ -23,10 +23,14 @@ class Jogador(pygame.sprite.Sprite):
         self.ultimo_y = 0
         self.ultimo_x = 0
         self.delay_bomerangue = 0
+        self.delay_tele = 0
 
     def update(self, tela):
         tela.blit(self.imagem, self.retangulo)
         tecla = pygame.key.get_pressed()
+
+        if self.delay_tele > 0 :
+            self.delay_tele -= 1
 
         largura_tela = tela.get_width()
         altura_tela = tela.get_height()
@@ -165,6 +169,17 @@ class Jogador(pygame.sprite.Sprite):
             i['obsta'][j] = 0
 
 
+
+
+        #teletransporte
+        tecla_t = True if pygame.key.get_pressed()[pygame.K_t] and jogador == 1 else False
+        tecla_m = True if pygame.key.get_pressed()[pygame.K_m] and jogador == 2 else False
+        if i['tele'][j] > 0 and (tecla_t or tecla_m) and (abs(self.ultimo_x) > 0 or abs(self.ultimo_y) > 0) and self.delay_tele <= 0 :
+            self.velocidade = distancia_teleporte
+            i['tele'][j] -= 60
+            self.delay_tele = delay_entre_teletransportes
+
+
     def colidir_jogadores(self, todos_jogadores):
         for outro_jogador in todos_jogadores: 
             if (outro_jogador is not self): # colisao não é consigo mesmo
@@ -224,7 +239,7 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
         self.imagem = pygame.Surface((10, 10))
         self.imagem.fill(aparencia)
-        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if bonus_tipo == 'bome' else self.imagem.fill('Red')
+        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if bonus_tipo == 'bome' else self.imagem.fill('Red') if bonus_tipo == 'obsta' else self.imagem.fill('White')
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         self.metodo = acao_na_coleta
         self.bonus = bonus_tipo
