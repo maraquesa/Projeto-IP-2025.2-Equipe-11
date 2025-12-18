@@ -157,6 +157,14 @@ class Jogador(pygame.sprite.Sprite):
         else : self.delay_bomerangue -= 1
 
 
+        if i['obsta'][j] > 0 :
+            if jogador == 1 :
+                pontuacao_lista[1] -= 1
+            else :
+                pontuacao_lista[2] -= 1
+            i['obsta'][j] = 0
+
+
     def colidir_jogadores(self, todos_jogadores):
         for outro_jogador in todos_jogadores: 
             if (outro_jogador is not self): # colisao não é consigo mesmo
@@ -216,11 +224,15 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
         self.imagem = pygame.Surface((10, 10))
         self.imagem.fill(aparencia)
-        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black')
+        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if acao_na_coleta == 'bome' else self.imagem.fill('Red')
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         self.metodo = acao_na_coleta
         self.bonus = bonus_tipo
         if self.metodo == 'secundario': self.tempo_vida = tempo_vida
+
+        if self.bonus == 'obsta' :
+            self.direcao = 0
+            self.delay_direcao = 100
 
 
 
@@ -252,9 +264,28 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
 
 
+
+        if self.bonus == 'obsta' : self.atualizar_movimento()
+
+
+
+
     def coleta_secundaria(self, jogador : int):
         bonus[jogador][self.bonus]['atual'] = bonus[jogador][self.bonus]['max']
         self.kill()
+
+    def atualizar_movimento(self):
+        if self.direcao == 0 : self.retangulo.x += velocidade_obstaculo
+        if self.direcao == 1 : self.retangulo.y += velocidade_obstaculo
+        if self.direcao == 2 : self.retangulo.x -= velocidade_obstaculo
+        if self.direcao == 3 : self.retangulo.y -= velocidade_obstaculo
+
+        if self.delay_direcao > 0 : self.delay_direcao -= 1
+        else :
+            self.direcao = (self.direcao + 1) % 4
+            self.delay_direcao = 100
+
+
 
 
 class Bomerangue(pygame.sprite.Sprite) :
