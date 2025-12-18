@@ -271,7 +271,7 @@ class Coletavel_generico(pygame.sprite.Sprite):
 
 
     def coleta_secundaria(self, jogador : int):
-        bonus[jogador][self.bonus]['atual'] = bonus[jogador][self.bonus]['max']
+        bonus[jogador][self.bonus]['atual'] += bonus[jogador][self.bonus]['max']
         self.kill()
 
     def atualizar_movimento(self):
