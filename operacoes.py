@@ -8,7 +8,7 @@ import pygame
 x = 1500 # x e y são o tamanho da tela
 y = 750
 velocidade_padrao_perssonagens = 4
-n_colecionaveis_principais = 2 # quantidade maxima de coletaveis principais que aparecerão na tela ao msm tempo
+n_colecionaveis_principais = 4 # quantidade maxima de coletaveis principais que aparecerão na tela ao msm tempo
 tempo_spawn_min_coletavel = 40 # o menor tempo em ticks para spawnar um coletavel secundario, 1 segundo possui 60 ticks
 tempo_spawn_max_coletavel = 75 # maior tempo para spawnar um coletavel secundario
 tempo_despawn_coletavel = 500 # tempo em ticks para deletar um coletavel secundario
@@ -19,7 +19,7 @@ velocidade_bomerangue = 20
 velocidade_obstaculo : int = 1
 distancia_teleporte = 425
 delay_entre_teletransportes = 50
-pontuacao_maxima = 10 # condição de vitória
+pontuacao_maxima = 20 # condição de vitória
 proximo_obstaculo = 450000
 escalacao_dificuldade = 450000
 escalacao_maxima = 7500

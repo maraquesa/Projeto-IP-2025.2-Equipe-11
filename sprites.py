@@ -166,13 +166,13 @@ class Jogador(pygame.sprite.Sprite):
 
                     if tecla_d :
                         self.imagem = pygame.image.load('assets/jogador 2/ricardo_direita.png').convert_alpha()
-                        self.imagem = pygame.transform.scale(self.imagem, (64, 80))
+                        self.imagem = pygame.transform.scale(self.imagem, (58, 80))
                     elif tecla_w :
                         self.imagem = pygame.image.load('assets/jogador 2/ricardo_costas.png').convert_alpha()
                         self.imagem = pygame.transform.scale(self.imagem, (72, 72))
                     elif tecla_a :
                         self.imagem = pygame.image.load('assets/jogador 2/ricardo_esquerda.png').convert_alpha()
-                        self.imagem = pygame.transform.scale(self.imagem, (64, 80))
+                        self.imagem = pygame.transform.scale(self.imagem, (58, 80))
                     elif tecla_s :
                         self.imagem = pygame.image.load('assets/jogador 2/ricardo_frente.png').convert_alpha()
                         self.imagem = pygame.transform.scale(self.imagem, (72, 72))
