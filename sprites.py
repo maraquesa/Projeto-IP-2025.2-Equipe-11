@@ -7,9 +7,16 @@ class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, velocidade: int, posicao_inicial: tuple[int, int], wasd: bool, skin: str):
         super().__init__()
-        self.imagem = pygame.Surface((20, 20))  # mudar
-        self.imagem.fill(skin)
-        self.retangulo = self.imagem.get_rect(midbottom=(posicao_inicial[0], posicao_inicial[1]))
+        self.imagem = pygame.Surface((45,45))
+        if wasd :
+            self.imagem = pygame.image.load('assets/jogador_1/marcio_frente.png')
+            self.imagem = pygame.transform.scale(self.imagem, (80, 80))
+        else :
+            self.imagem = pygame.image.load('assets/jogador 2/ricardo_frente.png')
+            self.imagem = pygame.transform.scale(self.imagem, (80, 80))
+        #if not wasd : self.imagem.fill('Yellow')
+        #else : self.imagem.fill('Green')
+        self.retangulo = self.imagem.get_rect(midtop =(posicao_inicial[0], posicao_inicial[1]))
         self.velocidade = velocidade
         self.delay_x = 0
         self.delay_y = 0
@@ -23,10 +30,17 @@ class Jogador(pygame.sprite.Sprite):
         self.ultimo_x = 0
         self.delay_bomerangue = 0
         self.delay_tele = 0
+        self.delay_animacao = 0
+
+        self.ultimo_a = False
+        self.ultimo_d = False
+        self.ultimo_w = False
+        self.ultimo_s = False
 
     def update(self, tela):
         tela.blit(self.imagem, self.retangulo)
         tecla = pygame.key.get_pressed()
+        self.delay_animacao += 1
 
         if self.delay_tele > 0 :
             self.delay_tele -= 1
@@ -54,6 +68,7 @@ class Jogador(pygame.sprite.Sprite):
             posicao_jogadores[2] = self.retangulo
 
             self.atualizar_bonus(2)
+        self.atualizar_skin()
 
         if (self.empurrao_frames > 0):
             self.alterar_x(self.empurrao_vx) # aplica o empurrão no eixo x
@@ -111,6 +126,61 @@ class Jogador(pygame.sprite.Sprite):
             self.retangulo.top = altura_tela # reaparece embaixo (primeiro o canto superior)
         elif (self.retangulo.top > altura_tela): # se sumir por baixo (canto superior desapareceu)
             self.retangulo.bottom = 0 # reaparece em cima (primeiro o canto inferior)
+
+    def atualizar_skin(self) :
+        print('a')
+        if self.modo_movimento :
+            if self.delay_animacao % 10 == 0 :
+                tecla = pygame.key.get_pressed()
+                tecla_a = True if tecla[pygame.K_a] else False
+                tecla_d = True if tecla[pygame.K_d] else False
+                tecla_w = True if tecla[pygame.K_w] else False
+                tecla_s = True if tecla[pygame.K_s] else False
+
+                if self.ultimo_a != tecla_a or self.ultimo_d != tecla_d or self.ultimo_s != tecla_s or self.ultimo_w != tecla_w :
+                    if tecla_d :
+                        self.imagem = pygame.image.load('assets/jogador_1/marcio_direita.png')
+                        self.imagem = pygame.transform.scale(self.imagem, (80, 80)).convert_alpha()
+                    elif tecla_w :
+                        self.imagem = pygame.image.load('assets/jogador_1/marcio_costas.png')
+                        self.imagem = pygame.transform.scale(self.imagem, (80, 80)).convert_alpha()
+                    elif tecla_a :
+                        self.imagem = pygame.image.load('assets/jogador_1/marcio_esquerda.png')
+                        self.imagem = pygame.transform.scale(self.imagem, (80, 80)).convert_alpha()
+                    elif tecla_s :
+                        self.imagem = pygame.image.load('assets/jogador_1/marcio_frente.png')
+                        self.imagem = pygame.transform.scale(self.imagem, (80, 80)).convert_alpha()
+
+                self.ultimo_a = tecla_a
+                self.ultimo_d = tecla_d
+                self.ultimo_w = tecla_w
+                self.ultimo_s = tecla_s
+        else :
+            if self.delay_animacao % 10 == 0 :
+                tecla = pygame.key.get_pressed()
+                tecla_a = True if tecla[pygame.K_LEFT] else False
+                tecla_d = True if tecla[pygame.K_RIGHT] else False
+                tecla_w = True if tecla[pygame.K_UP] else False
+                tecla_s = True if tecla[pygame.K_DOWN] else False
+                if self.ultimo_a != tecla_a or self.ultimo_d != tecla_d or self.ultimo_s != tecla_s or self.ultimo_w != tecla_w:
+
+                    if tecla_d :
+                        self.imagem = pygame.image.load('assets/jogador 2/ricardo_direita.png').convert_alpha()
+                        self.imagem = pygame.transform.scale(self.imagem, (64, 80))
+                    elif tecla_w :
+                        self.imagem = pygame.image.load('assets/jogador 2/ricardo_costas.png').convert_alpha()
+                        self.imagem = pygame.transform.scale(self.imagem, (72, 72))
+                    elif tecla_a :
+                        self.imagem = pygame.image.load('assets/jogador 2/ricardo_esquerda.png').convert_alpha()
+                        self.imagem = pygame.transform.scale(self.imagem, (64, 80))
+                    elif tecla_s :
+                        self.imagem = pygame.image.load('assets/jogador 2/ricardo_frente.png').convert_alpha()
+                        self.imagem = pygame.transform.scale(self.imagem, (72, 72))
+                self.ultimo_a = tecla_a
+                self.ultimo_d = tecla_d
+                self.ultimo_w = tecla_w
+                self.ultimo_s = tecla_s
+
 
 
 
@@ -241,15 +311,17 @@ class Coletavel_generico(pygame.sprite.Sprite):
             self.imagem = pygame.transform.scale(self.imagem, (80, 80))
         elif bonus_tipo == 'bome':
             self.imagem = pygame.image.load("assets/boomerangs.png").convert_alpha()
-            self.imagem = pygame.transform.scale(self.imagem, (30, 30))
+            self.imagem = pygame.transform.scale(self.imagem, (45, 30))
         elif bonus_tipo == 'tele':
             self.imagem = pygame.image.load("assets/teleporte.png").convert_alpha()
             self.imagem = pygame.transform.scale(self.imagem, (40, 40))
         else:
-            self.imagem = pygame.Surface((10, 10))
-            self.imagem.fill(aparencia)
             if acao_na_coleta != 'principal':
-                if bonus_tipo == 'velocidade': self.imagem.fill('Purple')
+                self.imagem = pygame.image.load('assets/café.png')
+                self.imagem = pygame.transform.scale(self.imagem, (20, 20)).convert_alpha()
+            else :
+                self.imagem = pygame.image.load('assets/pendrive.png')
+                self.imagem = pygame.transform.scale(self.imagem, (20, 20)).convert_alpha()
         
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         
@@ -337,7 +409,7 @@ class Bomerangue(pygame.sprite.Sprite) :
     def __init__(self, localizacao : tuple[int,int],x : int,y : int, jogador : int):
         super().__init__()
         self.imagem_original = pygame.image.load("assets/boomerangs.png").convert_alpha()
-        self.imagem_original = pygame.transform.scale(self.imagem_original, (25, 25))
+        self.imagem_original = pygame.transform.scale(self.imagem_original, (50, 35))
         self.imagem = self.imagem_original
         self.retangulo = self.imagem.get_rect(center=localizacao)
 
