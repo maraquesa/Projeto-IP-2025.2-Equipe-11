@@ -9,6 +9,7 @@ pygame.init()
 tela = pygame.display.set_mode((x, y))
 pygame.display.set_caption("Cinbate")
 clock = pygame.time.Clock()
+tempo_desde_inicio = 0
 
 mapa = pygame.image.load("assets/piso_mapa.png").convert() #caminho do asset do mapa    
 background = pygame.transform.scale(mapa, (x, y)) #redmensiona
@@ -72,6 +73,8 @@ while programa_rodando :
 
         jogo_ativo = True
         while jogo_ativo :
+            tempo_desde_inicio += 1
+            print(proximo_obstaculo)
             #eventos
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -80,6 +83,11 @@ while programa_rodando :
 
             if gerar_novo_coletavel() :
                 coletaveis_secundarios.add(Coletavel_generico('secundario', 'Purple', tempo_despawn_coletavel, escolher_bonus()))
+
+            if proximo_obstaculo <= 0 :
+                coletaveis_secundarios.add(Coletavel_generico('secundario', 'Purple', tempo_despawn_coletavel, escolher_bonus()))
+                proximo_obstaculo = escalacao_dificuldade
+            else : proximo_obstaculo -= min([escalacao_maxima, tempo_desde_inicio])
 
             tela.blit(background,(0,0))
             jogador_1.update(tela)
