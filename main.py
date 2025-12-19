@@ -10,9 +10,9 @@ tela = pygame.display.set_mode((x, y))
 pygame.display.set_caption("Cinbate")
 clock = pygame.time.Clock()
 
-#tela de fundo
-background = pygame.Surface((x, y)) #mudar
-background.fill((20, 20, 40))
+mapa = pygame.image.load("assets/piso_mapa.png").convert() #caminho do asset do mapa    
+background = pygame.transform.scale(mapa, (x, y)) #redmensiona
+
 
 def mostrar_interface():
     vermelho = (231, 25, 33)
