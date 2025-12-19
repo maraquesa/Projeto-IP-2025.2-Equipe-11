@@ -160,15 +160,15 @@ class Jogador(pygame.sprite.Sprite):
 
         else : self.delay_bomerangue -= 1
 
+        
+
 
         if i['obsta'][j] > 0 :
-            if jogador == 1 :
-                pontuacao_lista[1] -= 1
-            else :
-                pontuacao_lista[2] -= 1
+            if jogador == 1:
+                pontuacao_lista[1] = max(0, pontuacao_lista[1] - 1)
+            elif jogador == 2:
+                pontuacao_lista[2] = max(0, pontuacao_lista[2] - 1)
             i['obsta'][j] = 0
-
-
 
 
         #teletransporte
@@ -337,11 +337,11 @@ class Bomerangue(pygame.sprite.Sprite) :
 
 
         if colisao_personagem(self.retangulo) == 1 and self.jogador == 2 :
-            pontuacao_lista[1] -= 1
+            pontuacao_lista[1] = max(0, pontuacao_lista[1] - 1)
             self.kill()
 
         if colisao_personagem(self.retangulo) == 2 and self.jogador == 1 :
-            pontuacao_lista[2] -= 1
+            pontuacao_lista[2] = max(0, pontuacao_lista[2] - 1)
             self.kill()
 
 

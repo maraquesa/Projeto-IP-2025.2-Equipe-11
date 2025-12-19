@@ -19,7 +19,9 @@ velocidade_bomerangue = 5
 velocidade_obstaculo : int = 1
 distancia_teleporte = 425
 delay_entre_teletransportes = 50
-pontuacao_lista = [None, 0, 0]
+pontuacao_maxima = 10 # condição de vitória
+
+pontuacao_lista = [0, 0, 0]
 
 posicao_jogadores = {
     1: pygame.Rect(0, 0, 0, 0),
@@ -44,7 +46,6 @@ def calcular_velocidade_diagonal(velocidade : int) -> float :
     return round(velocidade * math.sin(math.radians(45)), 4)
 
 def achar_numero_tela() -> tuple[int,int] : #gera um numero dentro da tela
-
     return (random.randint(50, x - 50), random.randint(50, y - 50))
 
 def colisao_personagem(area_de_colisao: pygame.Rect) -> int : # recebe o objeto deimitado por um retangulo (correspondente a sua area de ocupacao)
@@ -61,7 +62,8 @@ def gerar_novo_coletavel() -> bool :
     if tempo_para_prox == 0 :
         tempo_para_prox = random.randint(tempo_spawn_min_coletavel, tempo_spawn_max_coletavel)
         return True
-    tempo_para_prox -= 1
+    else:
+        tempo_para_prox -= 1
     return False
 
 def escolher_bonus() -> str :
