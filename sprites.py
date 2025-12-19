@@ -246,8 +246,9 @@ class Coletavel_generico(pygame.sprite.Sprite):
         if self.metodo == 'secundario': self.tempo_vida = tempo_vida
 
         if self.bonus == 'obsta' :
-            self.direcao = 0
+            self.direcao = random.choice([0,1,2,3])
             self.delay_direcao = 100
+            self.invertido = random.choice([False, True])
 
 
 
@@ -290,15 +291,29 @@ class Coletavel_generico(pygame.sprite.Sprite):
         self.kill()
 
     def atualizar_movimento(self):
-        if self.direcao == 0 : self.retangulo.x += velocidade_obstaculo
-        if self.direcao == 1 : self.retangulo.y += velocidade_obstaculo
-        if self.direcao == 2 : self.retangulo.x -= velocidade_obstaculo
-        if self.direcao == 3 : self.retangulo.y -= velocidade_obstaculo
+        print(self.invertido)
+        if not self.invertido :
+            if self.direcao == 0 : self.retangulo.x += velocidade_obstaculo
+            if self.direcao == 1 : self.retangulo.y += velocidade_obstaculo
+            if self.direcao == 2 : self.retangulo.x -= velocidade_obstaculo
+            if self.direcao == 3 : self.retangulo.y -= velocidade_obstaculo
+
+        else :
+
+            if self.direcao == 0 : self.retangulo.x -= velocidade_obstaculo
+            if self.direcao == 1 : self.retangulo.y -= velocidade_obstaculo
+            if self.direcao == 2 : self.retangulo.x += velocidade_obstaculo
+            if self.direcao == 3 : self.retangulo.y += velocidade_obstaculo
 
         if self.delay_direcao > 0 : self.delay_direcao -= 1
         else :
             self.direcao = (self.direcao + 1) % 4
             self.delay_direcao = 100
+
+        if self.retangulo.x > 1500 : self.retangulo.x = 0
+        if self.retangulo.x < 0 : self.retangulo.x = 1500
+        if self.retangulo.y > 750 : self.retangulo.y = 0
+        if self.retangulo.y < 0 : self.retangulo.y = 750
 
 
 
