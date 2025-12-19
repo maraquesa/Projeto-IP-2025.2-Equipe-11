@@ -8,18 +8,21 @@ import pygame
 x = 1500 # x e y são o tamanho da tela
 y = 750
 velocidade_padrao_perssonagens = 2
-n_colecionaveis_principais = 2 # quantidade maxima de coletaveis principais que aparecerão na tela ao msm tempo
-tempo_spawn_min_coletavel = 50 # o menor tempo em ticks para spawnar um coletavel secundario, 1 segundo possui 60 ticks
-tempo_spawn_max_coletavel = 100 # maior tempo para spawnar um coletavel secundario
+n_colecionaveis_principais = 7 # quantidade maxima de coletaveis principais que aparecerão na tela ao msm tempo
+tempo_spawn_min_coletavel = 40 # o menor tempo em ticks para spawnar um coletavel secundario, 1 segundo possui 60 ticks
+tempo_spawn_max_coletavel = 75 # maior tempo para spawnar um coletavel secundario
 tempo_despawn_coletavel = 500 # tempo em ticks para deletar um coletavel secundario
 tempo_para_prox = 0 #tempo inicial para proximo spawn de coletavel
 itensidade_bonus_velocidade = 1.5 # a itenssidade do efeito de velocidade, 1 = 100%, 1.5 = 150% etc
-lista_bonus_disponiveis = [('velocidade', 3, 10), ('bome', 1, 2), ('obsta', 4, 1), ('tele', 1, 1)] #lista com todos os bonus possiveis e os pesos dele ser escolhido quando um coletavel secundario spawnar, cada elemento é uma tupla do tipo (elemento, peso, duração efeito em segundos)
-velocidade_bomerangue = 5
+lista_bonus_disponiveis = [('velocidade', 3, 10), ('bome', 1, 2), ('obsta', 5, 1), ('tele', 1, 1)] #lista com todos os bonus possiveis e os pesos dele ser escolhido quando um coletavel secundario spawnar, cada elemento é uma tupla do tipo (elemento, peso, duração efeito em segundos)
+velocidade_bomerangue = 10
 velocidade_obstaculo : int = 1
 distancia_teleporte = 425
 delay_entre_teletransportes = 50
-pontuacao_maxima = 10 # condição de vitória
+pontuacao_maxima = 50 # condição de vitória
+proximo_obstaculo = 450000
+escalacao_dificuldade = 450000
+escalacao_maxima = 7500
 
 pontuacao_lista = [0, 0, 0]
 
