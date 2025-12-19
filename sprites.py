@@ -242,12 +242,14 @@ class Coletavel_generico(pygame.sprite.Sprite):
         elif bonus_tipo == 'bome':
             self.imagem = pygame.image.load("assets/boomerangs.png").convert_alpha()
             self.imagem = pygame.transform.scale(self.imagem, (30, 30))
+        elif bonus_tipo == 'tele':
+            self.imagem = pygame.image.load("assets/teleporte.png").convert_alpha()
+            self.imagem = pygame.transform.scale(self.imagem, (40, 40))
         else:
             self.imagem = pygame.Surface((10, 10))
             self.imagem.fill(aparencia)
             if acao_na_coleta != 'principal':
                 if bonus_tipo == 'velocidade': self.imagem.fill('Purple')
-                else: self.imagem.fill('White')
         
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
         
@@ -323,7 +325,7 @@ class Bomerangue(pygame.sprite.Sprite) :
         self.imagem_original = pygame.transform.scale(self.imagem_original, (25, 25))
         self.imagem = self.imagem_original
         self.retangulo = self.imagem.get_rect(center=localizacao)
-        
+
         self.movimento_x = x
         self.movimento_y = y
         self.velocidade = velocidade_bomerangue
