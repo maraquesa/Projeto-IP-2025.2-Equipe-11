@@ -71,7 +71,7 @@ def tela_inicial():
                         escolha = "start" 
                     
                     if rect_sobre.collidepoint(pos_mouse):
-                        webbrowser.open("https://github.com/seu-repositorio")
+                        webbrowser.open("https://github.com/maraquesa/Projeto-IP-2025.2-Equipe-11")
                     
                     if rect_sair.collidepoint(pos_mouse):
                         rodando_menu = False
@@ -112,13 +112,12 @@ def tela_inicial():
 def tela_vitoria(vencedor):
     tela = pygame.display.get_surface()
     BRANCO = (255, 255, 255)
+    vermelho = (231, 25, 33)
     
     if (vencedor == 1):
         nome_vencedor = "Márcio Cornélio"
-        cor_venc = (100, 255, 100) # Verde
     elif vencedor == 2:
         nome_vencedor = "Ricardo Massa"
-        cor_venc = (255, 255, 100) # Amarelo
     
     exibindo = True
     while exibindo:
@@ -131,7 +130,7 @@ def tela_vitoria(vencedor):
 
         tela.fill((0, 0, 0))
         desenhar_texto("VITÓRIA!", 80, BRANCO, tela, x/2, y/2 - 150)
-        desenhar_texto(f"{nome_vencedor} VENCEU!", 110, cor_venc, tela, x/2, y/2)
+        desenhar_texto(f"{nome_vencedor} VENCEU!", 110, vermelho, tela, x/2, y/2)
         desenhar_texto("CLIQUE PARA FINALIZAR", 50, BRANCO, tela, x/2, y/2 + 100)
         pygame.display.flip()
     

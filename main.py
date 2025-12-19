@@ -11,32 +11,46 @@ pygame.display.set_caption("Cinbate")
 clock = pygame.time.Clock()
 tempo_desde_inicio = 0
 
-#tela de fundo
-background = pygame.Surface((x, y)) #mudar
-background.fill((20, 20, 40))
+mapa = pygame.image.load("assets/piso_mapa.png").convert() #caminho do asset do mapa    
+background = pygame.transform.scale(mapa, (x, y)) #redmensiona
+
 
 def mostrar_interface():
-    vermelho = (231, 25, 33)
+    preto = (0, 0, 0)
     branco = (255, 255, 255)
-    dourado = (255, 215, 0)
+    dourado = (212, 175, 55)
+    vermelho = (231, 25, 33)
 
+    cor_painel = (255, 255, 255)  
+    opacidade = 180              
+    largura_p, altura_p = 220, 75
     margem_x = 20
     margem_y = 30
-    espacamento_linhas = 25
 
-    # HUD Jogador 1 na esquerda
-    desenhar_texto("P1:", 35, vermelho, tela, margem_x + 15, margem_y)
-    desenhar_texto(f"{pontuacao_lista[1]}", 35, dourado, tela, margem_x + 70, margem_y)
+    painel_p1 = pygame.Surface((largura_p, altura_p))
+    painel_p1.set_alpha(opacidade)
+    painel_p1.fill(cor_painel)
+    tela.blit(painel_p1, (margem_x, margem_y - 10))
+    
+    desenhar_texto("P1:", 35, vermelho, tela, margem_x + 35, margem_y + 10)
+    desenhar_texto(f"{pontuacao_lista[1]}", 35, dourado, tela, margem_x + 90, margem_y + 10)
+    
     bome_1 = bonus[1]['bome']['atual'] // 60
     tele_1 = bonus[1]['tele']['atual'] // 60
-    desenhar_texto(f"boome: {bome_1} | teleporte: {tele_1}", 20, branco, tela, margem_x + 85, margem_y + espacamento_linhas)
+    desenhar_texto(f"boome: {bome_1} | teleporte: {tele_1}", 20, preto, tela, margem_x + 110, margem_y + 45)
 
-    # HUD Jogador 2 na direita
-    desenhar_texto("P2:", 35, vermelho, tela, x - margem_x - 85, margem_y)
-    desenhar_texto(f"{pontuacao_lista[2]}", 35, dourado, tela, x - margem_x - 30, margem_y)
+    painel_p2 = pygame.Surface((largura_p, altura_p))
+    painel_p2.set_alpha(opacidade)
+    painel_p2.fill(cor_painel)
+    pos_x_p2 = x - margem_x - largura_p
+    tela.blit(painel_p2, (pos_x_p2, margem_y - 10))
+    
+    desenhar_texto("P2:", 35, vermelho, tela, pos_x_p2 + 35, margem_y + 10)
+    desenhar_texto(f"{pontuacao_lista[2]}", 35, dourado, tela, pos_x_p2 + 90, margem_y + 10)
+    
     bome_2 = bonus[2]['bome']['atual'] // 60
     tele_2 = bonus[2]['tele']['atual'] // 60
-    desenhar_texto(f"boome: {bome_2} | teleporte: {tele_2}", 20, branco, tela, x - margem_x - 85, margem_y + espacamento_linhas)
+    desenhar_texto(f"boome: {bome_2} | teleporte: {tele_2}", 20, preto, tela, pos_x_p2 + 110, margem_y + 45)
    
 programa_rodando = True
 #inicio loop

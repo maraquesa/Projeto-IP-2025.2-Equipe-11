@@ -3,7 +3,6 @@ import pygame
 
 from operacoes import *
 
-
 class Jogador(pygame.sprite.Sprite):
 
     def __init__(self, velocidade: int, posicao_inicial: tuple[int, int], wasd: bool, skin: str):
@@ -237,13 +236,28 @@ class Coletavel_generico(pygame.sprite.Sprite):
     def __init__(self, acao_na_coleta: str, aparencia: str, tempo_vida: int = None, bonus_tipo : str = None):
         super().__init__()
 
-        self.imagem = pygame.Surface((10, 10))
-        self.imagem.fill(aparencia)
-        if acao_na_coleta != 'principal' : self.imagem.fill('Purple') if bonus_tipo == 'velocidade' else self.imagem.fill('Black') if bonus_tipo == 'bome' else self.imagem.fill('Red') if bonus_tipo == 'obsta' else self.imagem.fill('White')
+        if bonus_tipo == 'obsta':
+            self.imagem = pygame.image.load("assets/obs_computador_frente.png").convert_alpha()
+            self.imagem = pygame.transform.scale(self.imagem, (80, 80))
+        elif bonus_tipo == 'bome':
+            self.imagem = pygame.image.load("assets/boomerangs.png").convert_alpha()
+            self.imagem = pygame.transform.scale(self.imagem, (30, 30))
+        elif bonus_tipo == 'tele':
+            self.imagem = pygame.image.load("assets/teleporte.png").convert_alpha()
+            self.imagem = pygame.transform.scale(self.imagem, (40, 40))
+        else:
+            self.imagem = pygame.Surface((10, 10))
+            self.imagem.fill(aparencia)
+            if acao_na_coleta != 'principal':
+                if bonus_tipo == 'velocidade': self.imagem.fill('Purple')
+        
         self.retangulo = self.imagem.get_rect(midbottom=achar_numero_tela())
+        
         self.metodo = acao_na_coleta
         self.bonus = bonus_tipo
-        if self.metodo == 'secundario': self.tempo_vida = tempo_vida
+        
+        if self.metodo == 'secundario': 
+            self.tempo_vida = tempo_vida
 
         if self.bonus == 'obsta' :
             self.direcao = random.choice([0,1,2,3])
@@ -322,9 +336,11 @@ class Bomerangue(pygame.sprite.Sprite) :
 
     def __init__(self, localizacao : tuple[int,int],x : int,y : int, jogador : int):
         super().__init__()
-        self.imagem = pygame.Surface((25,25))
-        self.retangulo = self.imagem.get_rect(midbottom = localizacao)
-        self.imagem.fill('Black')
+        self.imagem_original = pygame.image.load("assets/boomerangs.png").convert_alpha()
+        self.imagem_original = pygame.transform.scale(self.imagem_original, (25, 25))
+        self.imagem = self.imagem_original
+        self.retangulo = self.imagem.get_rect(center=localizacao)
+
         self.movimento_x = x
         self.movimento_y = y
         self.velocidade = velocidade_bomerangue
